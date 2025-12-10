@@ -56,10 +56,14 @@ class ConfigurationTab():
         self._extender.saveHeadersButton = JButton("Add",
                                         actionPerformed=self.saveHeaders)
         self._extender.saveHeadersButton.setBounds(315, 115, 80, 30)
+
+        self._extender.updateHeadersButton = JButton("Update",
+                                        actionPerformed=self.updateHeaders)
+        self._extender.updateHeadersButton.setBounds(400, 115, 80, 30)
         
         self._extender.removeHeadersButton = JButton("Remove",
                                         actionPerformed=self.removeHeaders)
-        self._extender.removeHeadersButton.setBounds(400, 115, 80, 30)
+        self._extender.removeHeadersButton.setBounds(485, 115, 80, 30)
 
         savedHeadersTitles = self.getSavedHeadersTitles()
         self._extender.savedHeadersTitlesCombo = JComboBox(savedHeadersTitles)
@@ -202,6 +206,12 @@ class ConfigurationTab():
                             GroupLayout.PREFERRED_SIZE,
                         )
                         .addComponent(
+                            self._extender.updateHeadersButton,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                        )
+                        .addComponent(
                             self._extender.removeHeadersButton,
                             GroupLayout.PREFERRED_SIZE,
                             GroupLayout.PREFERRED_SIZE,
@@ -280,6 +290,12 @@ class ConfigurationTab():
                             GroupLayout.PREFERRED_SIZE,
                         )
                         .addComponent(
+                            self._extender.updateHeadersButton,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                        )
+                        .addComponent(
                             self._extender.removeHeadersButton,
                             GroupLayout.PREFERRED_SIZE,
                             GroupLayout.PREFERRED_SIZE,
@@ -348,6 +364,16 @@ class ConfigurationTab():
         self._extender.savedHeadersTitlesCombo.setModel(DefaultComboBoxModel(self.getSavedHeadersTitles()))
         self._extender.savedHeadersTitlesCombo.getModel().setSelectedItem(savedHeadersTitle)
     
+    def updateHeaders(self, event):
+        model = self._extender.savedHeadersTitlesCombo.getModel()
+        selectedItem = model.getSelectedItem()
+        if selectedItem == "Temporary headers":
+            return
+
+        for headerObj in self._extender.savedHeaders:
+            if selectedItem == headerObj['title']:
+                headerObj['headers'] = self._extender.replaceString.getText()
+
     def removeHeaders(self, event):
         model = self._extender.savedHeadersTitlesCombo.getModel()
         selectedItem = model.getSelectedItem()
