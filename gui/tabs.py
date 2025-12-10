@@ -62,6 +62,7 @@ class Tabs():
         self._extender.logTable.getColumn("Unauth. Len").setPreferredWidth(Math.round(tableWidth / 50 * 4))
         self._extender.logTable.getColumn("Authz. Status").setPreferredWidth(Math.round(tableWidth / 50 * 4))
         self._extender.logTable.getColumn("Unauth. Status").setPreferredWidth(Math.round(tableWidth / 50 * 4))
+        self._extender.logTable.getColumn("Profile").setPreferredWidth(Math.round(tableWidth / 50 * 4))
 
         self._extender.tableSorter = TableRowSorter(self._extender.tableModel)
         rowFilter = TableRowFilter(self._extender)

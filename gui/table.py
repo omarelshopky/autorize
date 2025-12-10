@@ -226,18 +226,18 @@ class TableModel(AbstractTableModel):
             return 0
 
     def getColumnCount(self):
-        return 8
+        return 9
 
     def getColumnName(self, columnIndex):
-        data = ['ID','Method', 'URL', 'Orig. Len', 'Modif. Len', "Unauth. Len",
-                "Authz. Status", "Unauth. Status"]
+        data = ['ID','Method', 'URL', 'Orig. Len', 'Modif. Len', 'Unauth. Len',
+                "Authz. Status", 'Unauth. Status', 'Profile']
         try:
             return data[columnIndex]
         except IndexError:
             return ""
 
     def getColumnClass(self, columnIndex):
-        data = [Integer, String, String, Integer, Integer, Integer, String, String]
+        data = [Integer, String, String, Integer, Integer, Integer, String, String, String]
         try:
             return data[columnIndex]
         except IndexError:
@@ -266,7 +266,9 @@ class TableModel(AbstractTableModel):
         if columnIndex == 6:
             return logEntry._enfocementStatus   
         if columnIndex == 7:
-            return logEntry._enfocementStatusUnauthorized        
+            return logEntry._enfocementStatusUnauthorized
+        if columnIndex == 8:
+            return logEntry._profile
         return ""
 
 class TableSelectionListener(ListSelectionListener):
@@ -351,7 +353,7 @@ class Table(JTable):
         return
 
 class LogEntry:
-    def __init__(self, id, requestResponse, method, url, originalrequestResponse, enforcementStatus, unauthorizedRequestResponse, enforcementStatusUnauthorized):
+    def __init__(self, id, requestResponse, method, url, originalrequestResponse, enforcementStatus, unauthorizedRequestResponse, enforcementStatusUnauthorized, profile):
         self._id = id
         self._requestResponse = requestResponse
         self._originalrequestResponse = originalrequestResponse
@@ -360,6 +362,7 @@ class LogEntry:
         self._enfocementStatus =  enforcementStatus
         self._unauthorizedRequestResponse = unauthorizedRequestResponse
         self._enfocementStatusUnauthorized =  enforcementStatusUnauthorized
+        self._profile = profile
         return
 
 class Mouseclick(MouseAdapter):
