@@ -118,6 +118,12 @@ class Tabs():
 
         retestAllitem = JMenuItem("Retest all requests")
         retestAllitem.addActionListener(RetestAllRequests(self._extender))
+
+        retestSelecteditemWithAllProfiles = JMenuItem("Retest selected request (all profiles)")
+        retestSelecteditemWithAllProfiles.addActionListener(RetestSelectedRequest(self._extender, True))
+
+        retestAllitemWithAllProfiles = JMenuItem("Retest all requests (all profiles)")
+        retestAllitemWithAllProfiles.addActionListener(RetestAllRequests(self._extender, True))
         
         deleteSelectedItem = JMenuItem("Delete")
         deleteSelectedItem.addActionListener(DeleteSelectedRequest(self._extender))
@@ -129,6 +135,8 @@ class Tabs():
         self._extender.menu.add(copyURLitem)
         self._extender.menu.add(retestSelecteditem)
         self._extender.menu.add(retestAllitem)
+        self._extender.menu.add(retestSelecteditemWithAllProfiles)
+        self._extender.menu.add(retestAllitemWithAllProfiles)
         self._extender.menu.add(deleteSelectedItem) # disabling this feature until bug will be fixed.
         message_editor = MessageEditor(self._extender)
 
@@ -210,18 +218,20 @@ class SendResponseComparer(ActionListener):
 
 
 class RetestSelectedRequest(ActionListener):
-    def __init__(self, extender):
+    def __init__(self, extender, checkWithAllProfiles=False):
         self._extender = extender
+        self._checkWithAllProfiles = checkWithAllProfiles
 
     def actionPerformed(self, e):
-        start_new_thread(handle_message, (self._extender, "AUTORIZE", False, self._extender._currentlyDisplayedItem._originalrequestResponse))
+        start_new_thread(handle_message, (self._extender, "AUTORIZE", False, self._extender._currentlyDisplayedItem._originalrequestResponse, self._checkWithAllProfiles))
 
 class RetestAllRequests(ActionListener):
-    def __init__(self, extender):
+    def __init__(self, extender, checkWithAllProfiles=False):
         self._extender = extender
+        self._checkWithAllProfiles = checkWithAllProfiles
 
     def actionPerformed(self, e):
-        start_new_thread(retestAllRequests, (self._extender,))
+        start_new_thread(retestAllRequests, (self._extender, self._checkWithAllProfiles))
 
 
 class DeleteSelectedRequest(AbstractAction):

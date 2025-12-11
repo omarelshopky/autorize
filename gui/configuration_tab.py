@@ -49,21 +49,25 @@ class ConfigurationTab():
         self._extender.doUnauthorizedRequest.setBounds(280, 65, 300, 30)
         self._extender.doUnauthorizedRequest.setSelected(True)
 
+        self._extender.doWithAllProfiles = JCheckBox("Check with all profiles")
+        self._extender.doWithAllProfiles.setBounds(280, 85, 300, 30)
+        self._extender.doWithAllProfiles.setSelected(False)
+
         self._extender.replaceQueryParam = JCheckBox("Replace query params", actionPerformed=self.replaceQueryHanlder)
-        self._extender.replaceQueryParam.setBounds(280, 85, 300, 30)
+        self._extender.replaceQueryParam.setBounds(280, 105, 300, 30)
         self._extender.replaceQueryParam.setSelected(False)
 
         self._extender.saveHeadersButton = JButton("Add",
                                         actionPerformed=self.saveHeaders)
-        self._extender.saveHeadersButton.setBounds(315, 115, 80, 30)
+        self._extender.saveHeadersButton.setBounds(315, 135, 80, 30)
 
         self._extender.updateHeadersButton = JButton("Update",
                                         actionPerformed=self.updateHeaders)
-        self._extender.updateHeadersButton.setBounds(400, 115, 80, 30)
-        
+        self._extender.updateHeadersButton.setBounds(400, 135, 80, 30)
+
         self._extender.removeHeadersButton = JButton("Remove",
                                         actionPerformed=self.removeHeaders)
-        self._extender.removeHeadersButton.setBounds(485, 115, 80, 30)
+        self._extender.removeHeadersButton.setBounds(485, 135, 80, 30)
 
         savedHeadersTitles = self.getSavedHeadersTitles()
         self._extender.savedHeadersTitlesCombo = JComboBox(savedHeadersTitles)
@@ -188,6 +192,12 @@ class ConfigurationTab():
                             GroupLayout.PREFERRED_SIZE,
                         )
                         .addComponent(
+                            self._extender.doWithAllProfiles,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                        )
+                        .addComponent(
                             self._extender.autoScroll,
                             GroupLayout.PREFERRED_SIZE,
                             GroupLayout.PREFERRED_SIZE,
@@ -251,6 +261,12 @@ class ConfigurationTab():
                     )
                     .addComponent(
                         self._extender.doUnauthorizedRequest,
+                        GroupLayout.PREFERRED_SIZE,
+                        GroupLayout.PREFERRED_SIZE,
+                        GroupLayout.PREFERRED_SIZE,
+                    )
+                    .addComponent(
+                        self._extender.doWithAllProfiles,
                         GroupLayout.PREFERRED_SIZE,
                         GroupLayout.PREFERRED_SIZE,
                         GroupLayout.PREFERRED_SIZE,

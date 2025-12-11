@@ -20,15 +20,21 @@ def makeRequest(self, messageInfo, message):
     requestURL = self._helpers.analyzeRequest(messageInfo).getUrl()
     return self._callbacks.makeHttpRequest(self._helpers.buildHttpService(str(requestURL.getHost()), int(requestURL.getPort()), requestURL.getProtocol() == "https"), message)
 
-def makeMessage(self, messageInfo, removeOrNot, authorizeOrNot):
+def makeMessage(self, messageInfo, removeOrNot, authorizeOrNot, profile=None):
     requestInfo = self._helpers.analyzeRequest(messageInfo)
     headers = requestInfo.getHeaders()
+
+    if profile and 'headers' in profile:
+        replaceString = profile['headers']
+    else:
+        replaceString = self.replaceString.getText()
+
     if removeOrNot:
         headers = list(headers)
         # flag for query
         queryFlag = self.replaceQueryParam.isSelected()
         if queryFlag:
-            param = self.replaceString.getText().split("=")
+            param = replaceString.split("=")
             paramKey = param[0]
             paramValue = param[1]
             # ([\?&])test=.*?(?=[\s&])
@@ -36,7 +42,7 @@ def makeMessage(self, messageInfo, removeOrNot, authorizeOrNot):
             patchedHeader = re.sub(pattern, r"\1{}={}".format(paramKey, paramValue), headers[0], count=1, flags=re.DOTALL)
             headers[0] = patchedHeader
         else:
-            removeHeaders = self.replaceString.getText()
+            removeHeaders = replaceString
 
             # Headers must be entered line by line i.e. each header in a new
             # line
@@ -57,7 +63,7 @@ def makeMessage(self, messageInfo, removeOrNot, authorizeOrNot):
 
             if not queryFlag:
                 # fix missing carriage return on *NIX systems
-                replaceStringLines = self.replaceString.getText().split("\n")
+                replaceStringLines = replaceString.split("\n")
                 for h in replaceStringLines:
                     if h == "": # Logic to fix extraneous newline at the end of requests when no temporary headers are added
                         pass
